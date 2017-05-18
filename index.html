@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>angular.js</title>
+    <script src="js/angular.min.js"></script>
+    <link rel="stylesheet" href="dist/css/bootstrap.css">
+
+</head>
+<body>
+    <div ng-app="table" class="panel panel-primary" style="width:500px;margin:0 auto;">
+        <div ng-controller="aa">
+            <div class="panel-heading" style="font-size:30px">
+                <span>花名册：</span>
+                <input ng-model="input" type="text" placeholder="*请输入想要查找的地址" style="color:black; font-size:14px; padding:10px ">
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <th>编号：</th>
+                    <th>姓名：</th>
+                    <th>年龄：</th>
+                    <th>地址：</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="i in arr | filter:{'address':input}">
+                        <td>{{ i.id }}</td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.age }}</td>
+                        <td>{{ i.address }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>    
+    </div>
+    
+    
+
+    <script type="text/javascript">
+       var table = angular.module("table",[]);
+            table.controller("aa",function($scope,$http){
+            $scope.input="";
+            $scope.arr = [];
+            
+                    $http({
+                        method: 'GET',
+                        url: 'name.json'
+                    }).then(function successCallback(response){
+                            // 请求成功执行代码
+                            console.log(response.data);
+                            $scope.arr = response.data;
+                    }, function errorCallback(response) {
+                            // 请求失败执行代码
+                    });
+
+            })
+
+       
+
+    </script>
+
+</body>
+</html>
